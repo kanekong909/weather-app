@@ -88,10 +88,12 @@ body {
 
 /* Paises */
 .country-wrapper {
-  overflow-x: auto;
-  white-space: nowrap;
-  padding: 10px;
-  margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 10px;
+    margin-bottom: 20px;
 }
 .country-selector {
   display: flex;
@@ -277,4 +279,10 @@ body {
   }
 }
 
+@media screen and (min-width: 1024px) {
+    .cities-container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
 

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Titulo -->
+    <div class="title">
+        <h1>Clima en Ciudades Principales</h1>
+    </div>
+
+    <!-- Paises -->
+    <div class="country-wrapper">
+        <div class="country-selector">
+            <!-- Las cápsulas de países aparecerán aquí -->
+        </div>
+    </div>
+
+    <!-- Hora Pais -->
+    <div class="hora-pais">
+        <h2 class="ciudad-nombre"></h2>
+        <p class="hora-local"></p>
+    </div>
+
+    <!-- Filtros -->
+    <div class="weather-filters">
+        <button data-filter="clear">☀️ Soleado</button>
+        <button data-filter="rain">🌧️ Lluvia</button>
+        <button data-filter="cold">❄️ Frío</button>
+        <button data-filter="all">Mostrar todo</button>
+    </div>
+
+    <!-- Ciudades -->
+    <div class="cities-container">
+        <!-- Aquí se cargarán las cards del clima -->
+    </div>
+
+    <!-- Pronostico -->
+    <div class="forecast-overlay hidden">
+        <div class="forecast-modal">
+            <button class="close-forecast">X</button>
+            <h2 class="forecast-title"></h2>
+            <div class="forecast-cards"></div>
+        </div>
+    </div>
+
+    <!-- Ubicacion usuario -->
+    <div class="modal-ubicacion hidden">
+        <div class="modal-content">
+            <button class="cerrar-modal">X</button>
+            <h3 class="modal-titulo"></h3>
+            <p class="modal-descripcion"></p>
+            <p class="modal-hora"></p>
+            <button class="aceptar-modal">Aceptar</button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

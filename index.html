@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Weather</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="assets/img/beach.png" type="image/x-icon">
 </head>
 <body>
     <!-- Titulo -->
@@ -17,6 +18,21 @@
         <div class="country-selector">
             <!-- Las cápsulas de países aparecerán aquí -->
         </div>
+    </div>
+
+    <!-- Busqueda -->
+    <div class="search-section">
+        <div class="input-wrapper">
+            <input
+            type="text"
+            id="city-input"
+            placeholder="Escribe una ciudad (p. ej. Lima)"
+            class="city-input"
+            aria-label="Buscar ciudad"
+            />
+            <span id="clear-icon" class="clear-icon">&times;</span>
+        </div>
+        <button id="search-button" class="btn-search">Buscar</button>
     </div>
 
     <!-- Hora Pais -->

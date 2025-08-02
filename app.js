@@ -36,9 +36,14 @@ const flags = {
 let comparisonMode = false;
 let citiesToCompare = [];
 
-const countryContainer = document.querySelector('.country-selector');
+// Busqueda
+const cityInput = document.getElementById('city-input');
+const searchButton = document.getElementById('search-button');
+const clearIcon = document.getElementById('clear-icon');
+
+const countryContainer = document.querySelector('.country-selector'); // Contenedor Paises
 const citiesContainer = document.querySelector('.cities-container');
-let relojInterval;
+let relojInterval; // Contenedor Ciudad
 
 // Mostrar hora pais
 function mostrarHoraPorTimezone(nombreCiudad, timezoneOffset) {
@@ -113,38 +118,47 @@ function loadWeatherCards(countryCode) {
 }
 
 // OBtener las ciudades
-function getCityWeather(city, countryCode, isFirst = false) {
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city},${countryCode}&appid=${apiKey}&units=metric&lang=es`;
-   
-    fetch(url)
-        .then(res => res.json())
-        .then(data => {
-            if (data.cod !== 200) return;
+async function getCityWeather(city, countryCode, isFirst = false, isSearch = false) {
+  const code = countryCode || '';
+  const key = `${city.trim()},${code}`.toLowerCase();
+  const cityKey = encodeURIComponent(key);
 
-            if (isFirst) {
-                mostrarHoraPorTimezone(data.name, data.timezone);
-            }
+  // Evita duplicados
+  if (citiesContainer.querySelector(`[data-city="${cityKey}"]`)) return;
 
-            const card = document.createElement('div');
-            card.className = 'weather-card';
-            card.innerHTML = `
-                <h3 class="title-card">${data.name}</h3>
-                <p class="description">${capitalize(data.weather[0].description)}</p>
-                <img src="https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png" alt="icono">
-                <p class="grados">${data.main.temp} °C</p>
-            `;
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)},${encodeURIComponent(code)}&appid=${apiKey}&units=metric&lang=es`;
 
+  try {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`${res.status} - ${res.statusText}`);
 
-    // Evento de click para abrir pronóstico
-    card.addEventListener('click', () => {
-        onCityClick(city, countryCode);
-    });
+    const data = await res.json();
+    if (data.cod !== 200 && data.cod !== "200") return;
 
+    if (isFirst) {
+      mostrarHoraPorTimezone(data.name, data.timezone);
+    }
+
+    // Limpia si es búsqueda
+    if (isSearch) {
+      citiesContainer.innerHTML = ''; // Limpia tarjetas anteriores
+    }
+
+    const card = document.createElement('div');
+    card.className = 'weather-card';
+    card.setAttribute('data-city', cityKey);
+    card.innerHTML = `
+      <h3 class="title-card">${data.name}</h3>
+      <p class="description">${capitalize(data.weather[0].description)}</p>
+      <img src="https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png" alt="icono">
+      <p class="grados">${Math.round(data.main.temp)} °C</p>
+    `;
+    card.addEventListener('click', () => onCityClick(data.name, data.sys.country));
     citiesContainer.appendChild(card);
-    })
-    .catch(err => {
-    console.error(`Error con ${city}:`, err);
-    });
+
+  } catch (err) {
+    console.error(`Error con ${cityKey}:`, err);
+  }
 }
 
 // Obtener pronosticos de los 5 dias de la ciudad
@@ -291,6 +305,30 @@ document.querySelector('.cerrar-modal').addEventListener('click', () => {
   document.querySelector('.modal-ubicacion').classList.remove('show');
 });
 
+// Busqueda
+searchButton.addEventListener('click', runSearch);
+cityInput.addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') runSearch(e);
+});
+async function runSearch(e) {
+  e.preventDefault();
+  const raw = cityInput.value.trim();
+  if (!raw) return;
+  cityInput.value = '';
+  const cityName = raw.replace(/,/g, '').slice(0, 50);
+  await getCityWeather(cityName, '', false, true); // <-- importante: true para isSearch
+}
+cityInput.addEventListener('input', () => {
+  // Capitaliza automáticamente la primera letra mientras escribe
+  cityInput.value = capitalize(cityInput.value);
 
+  clearIcon.style.display = cityInput.value ? 'block' : 'none';
+});
+clearIcon.addEventListener('click', () => {
+  cityInput.value = '';
+  clearIcon.style.display = 'none';
+  citiesContainer.innerHTML = '';
+  loadWeatherCards("CO"); // <- AQUÍ
+});
 
 

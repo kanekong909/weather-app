@@ -36,6 +36,10 @@ const flags = {
 let comparisonMode = false;
 let citiesToCompare = [];
 
+// Mapa
+let map; // para mantener referencia global al mapa
+let marker; // para actualizar el punto
+
 // Busqueda
 const cityInput = document.getElementById('city-input');
 const searchButton = document.getElementById('search-button');
@@ -135,6 +139,8 @@ async function getCityWeather(city, countryCode, isFirst = false, isSearch = fal
     const data = await res.json();
     if (data.cod !== 200 && data.cod !== "200") return;
 
+     const iconClass = data.weather[0].main.toLowerCase().includes("rain") ? "weather-icon rainy-icon" : "weather-icon";
+
     if (isFirst) {
       mostrarHoraPorTimezone(data.name, data.timezone);
     }
@@ -150,7 +156,7 @@ async function getCityWeather(city, countryCode, isFirst = false, isSearch = fal
     card.innerHTML = `
       <h3 class="title-card">${data.name}</h3>
       <p class="description">${capitalize(data.weather[0].description)}</p>
-      <img src="https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png" alt="icono">
+      <img class="${iconClass}" src="https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png" alt="icono">
       <p class="grados">${Math.round(data.main.temp)} °C</p>
     `;
     card.addEventListener('click', () => onCityClick(data.name, data.sys.country));
@@ -330,5 +336,8 @@ clearIcon.addEventListener('click', () => {
   citiesContainer.innerHTML = '';
   loadWeatherCards("CO"); // <- AQUÍ
 });
+
+
+
 
 

@@ -330,11 +330,31 @@ body {
   cursor: pointer;
 }
 
+.weather-icon {
+  animation: pulse 2s infinite ease-in-out;
+  transition: transform 0.3s;
+}
+
+/* Para lluvia: efecto de leve caída */
+.rainy-icon {
+  animation: shakeY 0.5s infinite;
+}
+
 /* Animaciones */
 @keyframes zoomIn {
   to {
     transform: scale(1);
   }
+}
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+@keyframes shakeY {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(2px); }
+  100% { transform: translateY(0); }
 }
 
 @media screen and (min-width: 1024px) {

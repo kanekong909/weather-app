@@ -48,43 +48,58 @@ body {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 15px;
-    padding: 1px 25px;
+    padding: 15px 25px;
     margin-top: 15px;
 }
 .weather-card {
-  background-color: rgba(255, 255, 255, 0.256);
-  border-radius: 10px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.3), rgba(200, 230, 255, 0.3));
+  border-radius: 15px;
   width: auto;
-  padding: 8px 0;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 12px 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   text-align: center;
-  border: 1px solid rgb(255, 255, 255);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  gap: 15px;
+}
+.weather-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
 .weather-card.selected {
-  border: 2px solid #141515;
-  background-color: #5ead0f93;
+  border: 2px solid #1c1c1c;
+  background: linear-gradient(135deg, rgba(160, 255, 142, 0.5), rgba(255, 255, 255, 0.3));
 }
 .weather-card:active {
-  transform: scale(.98);
+  transform: scale(0.98);
 }
 .weather-card img {
-  width: 80px;
-  height: 80px;
+  width: 70px;
+  height: 70px;
+  margin-bottom: 8px;
 }
 .title-card {
-    color: rgb(27, 26, 26);
-    font-family: var(--libertinus);
+  color: #1a1a1a;
+  font-family: var(--libertinus);
+  font-size: 18px;
+  font-weight: bold;
 }
 .description {
-    color: rgb(48, 46, 46);
-    font-family: var(--libertinus);
+  color: #2e2e2e;
+  font-family: var(--libertinus);
+  font-size: 14px;
+  margin-bottom: 4px;
 }
 .grados {
-    color: rgb(24, 24, 24);
-    font-family: var(--libertinus);
-    font-weight: bolder;
+  color: #1e1e1e;
+  font-family: var(--libertinus);
+  font-weight: bolder;
+  font-size: 20px;
 }
+
 
 /* Paises */
 .country-wrapper {

@@ -248,30 +248,17 @@ async function obtenerClimaPorCoordenadas(lat, lon) {
 
     if (data.cod !== 200) throw new Error(data.message);
 
-    // Mostrar modal
+    // Mostrar modal con la información de ubicación
     mostrarModalUbicacion(data);
 
-    // También agregar la tarjeta al contenedor
-    mostrarHoraPorTimezone(data.name, data.timezone);
+    // Guardamos temporalmente la data para usarla al aceptar
+    window.userLocationData = data;
 
-    const card = document.createElement('div');
-    card.className = 'weather-card';
-    card.innerHTML = `
-      <h3 class="title-card">${data.name}</h3>
-      <p class="description">${capitalize(data.weather[0].description)}</p>
-      <img src="https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png" alt="icono">
-      <p class="grados">${data.main.temp} °C</p>
-    `;
-
-    card.addEventListener('click', () => {
-      onCityClick(data.name, data.sys.country);
-    });
-
-    citiesContainer.prepend(card);
   } catch (error) {
     console.error("Error al obtener clima por ubicación:", error);
   }
 }
+
 // Mostrar el modal anterior
 function mostrarModalUbicacion(data) {
     const modal = document.querySelector('.modal-ubicacion');

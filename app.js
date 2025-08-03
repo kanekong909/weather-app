@@ -157,7 +157,10 @@ async function getCityWeather(city, countryCode, isFirst = false, isSearch = fal
       <h3 class="title-card">${data.name}</h3>
       <p class="description">${capitalize(data.weather[0].description)}</p>
       <img class="${iconClass}" src="https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png" alt="icono">
-      <p class="grados">${Math.round(data.main.temp)} °C</p>
+      <p class="grados">
+        ${Math.round(data.main.temp)} °C /
+        ${Math.round((data.main.temp * 9) / 5 + 32)} °F
+      </p>
     `;
     card.addEventListener('click', () => onCityClick(data.name, data.sys.country));
     citiesContainer.appendChild(card);
